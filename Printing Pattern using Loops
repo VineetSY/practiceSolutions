@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() 
+{
+
+    int n, i, j;
+    int li, ri;
+    int charnum;
+    scanf("%d", &n);
+  	// Complete the code to print the pattern.
+    for(i = 0; i < n; ++i)
+    {
+        charnum = n-i;
+
+        /* LEft top loop */
+        for(li = 0; li < i; ++li)
+            printf("%d ",n-li);
+        /* Middle top loop */
+        for(j = 0; j < 2*charnum -1; ++j)
+            printf("%d ",charnum);
+        /* Right top loop */
+        for(ri = 0; ri < i; ++ri)
+            printf("%d ",charnum+1+ri);
+        printf("\n");
+    }
+    for(i = n-1; i > 0; --i)
+    {
+        charnum = n - i;
+        /* Left bottom loop */
+        for(li = 0; li < i-1; ++li)
+            printf("%d ",n-li);
+        /* Middle bottom loop */
+        for(j = 0; j <= 2*charnum -1; ++j)
+            printf("%d ", charnum+1);
+        /* Right bottom loop */
+        for(ri = 0; ri < i; ++ri)
+            printf("%d ",charnum+1+ri);
+        printf("\n");
+    }
+    return 0;
+}
