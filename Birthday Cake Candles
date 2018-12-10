@@ -1,0 +1,29 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the birthdayCakeCandles function below.
+def birthdayCakeCandles(ar):
+    tallcandle = max(ar)
+    tallcount = 0
+    for candle in ar:
+        if tallcandle == candle:
+            tallcount +=1
+    return tallcount
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    ar_count = int(input())
+
+    ar = list(map(int, input().rstrip().split()))
+
+    result = birthdayCakeCandles(ar)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
