@@ -44,7 +44,7 @@ char**** get_document(char* text) {
             word[i_char] = '\0';
             i_char = 0;
             /* Reallocate memory for word and add the word to words array */
-            words[i_word++] = (char *)realloc(sizeof(char)*i_char);
+            words[i_word++] = (char *)realloc(sizeof(char *));
             strcpy(words[i_word], word);
         }
         else if( c == '.')
