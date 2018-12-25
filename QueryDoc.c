@@ -22,7 +22,7 @@ char**** get_document(char* text) {
     char **sentence = (char **)malloc(sizeof(char *));
     char ***paragraph = (char ***)malloc(sizeof(char **));
     char ****doc = (char ****)malloc(sizeof(char ***));
-    if( (word == NULL) || (sentences == NULL) || (paragraphs == NULL) || (doc == NULL) )
+    if( (word == NULL) || (sentence == NULL) || (paragraph == NULL) || (doc == NULL) )
     {
         printf("\nerror in malloc\n");
         return 1;
