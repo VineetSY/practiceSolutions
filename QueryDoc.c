@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<assert.h>
+#include <assert.h>
+#include <ctype.h>
 #define MAX_CHARACTERS 1005
 #define MAX_PARAGRAPHS 5
 
@@ -14,7 +15,7 @@ char** kth_sentence_in_mth_paragraph(char**** document, int k, int m) {
 }
 
 char*** kth_paragraph(char**** document, int k) {
-
+    return document[k-1];
 }
 
 char**** get_document(char* text) {
@@ -25,14 +26,15 @@ char**** get_document(char* text) {
     if( (word == NULL) || (sentence == NULL) || (paragraph == NULL) || (doc == NULL) )
     {
         printf("\nerror in malloc\n");
-        return 1;
     }
-    int index = 0, i_char = 0, i_sen = 0, i_para = 0;
-    char c = text[index];
+    int index = 0, i_char = 0, i_sen = 0, i_para = 0, i_doc = 0;
+    char c;
+    char prevchar = NULL;
     int wordCount = 0;
     int doclen = strlen(text);
     for(index = 0; index < doclen ; ++index)
     {
+        c = text[index];
         if(isalpha(c)) 
         {
             word[i_char++] = text[index];
@@ -43,20 +45,64 @@ char**** get_document(char* text) {
             word[i_char] = '\0';
             i_char = 0;
             /* Reallocate memory for word and add the word to words array */
-            sentence[i_sen] = (char *)realloc((sentence+i_sen),sizeof(char *)*(i_sen+1));
+            sentence = (char **)realloc((sentence),sizeof(char *)*(i_sen+1));
+            sentence[i_sen] = word;
             i_sen++;
-            strcpy(sentence[i_sen], word);
+            word = (char *)malloc(sizeof(char)*50);
         }
         else if( c == '.')
         {
             /* Complete the last sentence*/
+            word[i_char] = '\0';
+            i_char = 0;
+            /* Reallocate memory for word and add the word to words array */
+            sentence = (char **)realloc(sentence,sizeof(char *)*(i_sen+1));
+            sentence[i_sen] = word;
+            i_sen = 0;
+            paragraph = (char ***)realloc(paragraph,sizeof(char *)*(i_para+1));
+            paragraph[i_para] = sentence;
+            i_para++;
+            /* New word and new sentence locations */
+            word = (char *)malloc(sizeof(char)*50);
+            sentence = (char **)malloc(sizeof(char *));
         }
-        else if( c == '\n')
+        else if( ( c == '\n') || (index == (doclen - 1) ) )
         {
             /* Complete the last paragraph */
+            if( (i_char == 0) && (i_sen == 0) )
+            {
+                i_para = 0;
+                doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+                doc[i_doc] = paragraph;
+                i_doc++;
+                paragraph = (char ***)malloc(sizeof(char **));
+            }
+            else
+            {
+                word[i_char] = '\0';
+                i_char = 0;
+                /* Reallocate memory for word and add the word to words array */
+                sentence = (char **)realloc(sentence,sizeof(char *)*(i_sen+1));
+                sentence[i_sen] = word;
+                i_sen = 0;
+                paragraph = (char ***)realloc(paragraph,sizeof(char *)*(i_para+1));
+                paragraph[i_para] = sentence;
+                i_para = 0;
+                doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+                doc[i_doc] = paragraph;
+                i_doc++;
+                word = (char *)malloc(sizeof(char)*50);
+                sentence = (char **)malloc(sizeof(char *));
+                paragraph = (char ***)malloc(sizeof(char **));
+            }
         }
-        printf("\n%c",text[index]);
+        prevchar = c;
+        // printf("\n%c",text[index]);
     }
+    free(word);
+    free(sentence);
+    free(paragraph);
+    return doc;
 }
 
 
