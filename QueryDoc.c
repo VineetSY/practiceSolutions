@@ -7,11 +7,11 @@
 #define MAX_PARAGRAPHS 5
 
 char* kth_word_in_mth_sentence_of_nth_paragraph(char**** document, int k, int m, int n) {
-
+    return document[k-1][m-1][n-1];
 }
 
 char** kth_sentence_in_mth_paragraph(char**** document, int k, int m) { 
-
+    return document[k-1][m-1];
 }
 
 char*** kth_paragraph(char**** document, int k) {
@@ -66,7 +66,7 @@ char**** get_document(char* text) {
             word = (char *)malloc(sizeof(char)*50);
             sentence = (char **)malloc(sizeof(char *));
         }
-        else if( ( c == '\n') || (index == (doclen - 1) ) )
+        else if( ( c == '\n') || (index == (doclen) ) )
         {
             /* Complete the last paragraph */
             if( (i_char == 0) && (i_sen == 0) )
@@ -99,6 +99,11 @@ char**** get_document(char* text) {
         prevchar = c;
         // printf("\n%c",text[index]);
     }
+    i_para = 0;
+    doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+    doc[i_doc] = paragraph;
+    i_doc++;
+    paragraph = (char ***)malloc(sizeof(char **));
     free(word);
     free(sentence);
     free(paragraph);
