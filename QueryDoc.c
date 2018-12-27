@@ -19,7 +19,7 @@ char*** kth_paragraph(char**** document, int k) {
 }
 
 char**** get_document(char* text) {
-    char *word = (char *)malloc(sizeof(char)*50);
+    char *word = (char *)malloc(sizeof(char)*MAX_CHARACTERS);
     char **sentence = (char **)malloc(sizeof(char *));
     char ***paragraph = (char ***)malloc(sizeof(char **));
     char ****doc = (char ****)malloc(sizeof(char ***));
@@ -48,7 +48,7 @@ char**** get_document(char* text) {
             sentence = (char **)realloc((sentence),sizeof(char *)*(i_sen+1));
             sentence[i_sen] = word;
             i_sen++;
-            word = (char *)malloc(sizeof(char)*50);
+            word = (char *)malloc(sizeof(char)*MAX_CHARACTERS);
         }
         else if( c == '.')
         {
@@ -63,50 +63,23 @@ char**** get_document(char* text) {
             paragraph[i_para] = sentence;
             i_para++;
             /* New word and new sentence locations */
-            word = (char *)malloc(sizeof(char)*50);
+            word = (char *)malloc(sizeof(char)*MAX_CHARACTERS);
             sentence = (char **)malloc(sizeof(char *));
         }
-        else if( ( c == '\n') || (index == (doclen) ) )
+        else if( c == '\n')
         {
-            /* Complete the last paragraph */
-            if( (i_char == 0) && (i_sen == 0) )
-            {
-                i_para = 0;
-                doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
-                doc[i_doc] = paragraph;
-                i_doc++;
-                paragraph = (char ***)malloc(sizeof(char **));
-            }
-            else
-            {
-                word[i_char] = '\0';
-                i_char = 0;
-                /* Reallocate memory for word and add the word to words array */
-                sentence = (char **)realloc(sentence,sizeof(char *)*(i_sen+1));
-                sentence[i_sen] = word;
-                i_sen = 0;
-                paragraph = (char ***)realloc(paragraph,sizeof(char *)*(i_para+1));
-                paragraph[i_para] = sentence;
-                i_para = 0;
-                doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
-                doc[i_doc] = paragraph;
-                i_doc++;
-                word = (char *)malloc(sizeof(char)*50);
-                sentence = (char **)malloc(sizeof(char *));
-                paragraph = (char ***)malloc(sizeof(char **));
-            }
+            i_para = 0;
+            doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+            doc[i_doc] = paragraph;
+            i_doc++;
+            paragraph = (char ***)malloc(sizeof(char **));
         }
-        prevchar = c;
-        // printf("\n%c",text[index]);
     }
-    i_para = 0;
+
     doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
     doc[i_doc] = paragraph;
-    i_doc++;
-    paragraph = (char ***)malloc(sizeof(char **));
     free(word);
     free(sentence);
-    free(paragraph);
     return doc;
 }
 
