@@ -22,7 +22,7 @@ char**** get_document(char* text) {
     char *word = (char *)malloc(sizeof(char)*MAX_CHARACTERS);
     char **sentence = (char **)malloc(sizeof(char *));
     char ***paragraph = (char ***)malloc(sizeof(char **));
-    char ****doc = (char ****)malloc(sizeof(char ***));
+    char ****doc = (char ****)malloc(sizeof(char ***)*MAX_PARAGRAPHS);
     if( (word == NULL) || (sentence == NULL) || (paragraph == NULL) || (doc == NULL) )
     {
         printf("\nerror in malloc\n");
@@ -69,14 +69,14 @@ char**** get_document(char* text) {
         else if( c == '\n')
         {
             i_para = 0;
-            doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+            // doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
             doc[i_doc] = paragraph;
             i_doc++;
             paragraph = (char ***)malloc(sizeof(char **));
         }
     }
 
-    doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
+    // doc = (char ****)realloc(doc,sizeof(char *)*(i_doc+1));
     doc[i_doc] = paragraph;
     free(word);
     free(sentence);
