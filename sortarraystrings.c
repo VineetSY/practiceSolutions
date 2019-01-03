@@ -46,7 +46,24 @@ int sort_by_length(const char* a, const char* b) {
 }
 
 void string_sort(char** arr,const int len,int (*cmp_func)(const char* a, const char* b)){
-    qsort((void*)arr, len, sizeof(arr[0]), cmp_func);
+//     qsort((void*)arr, len, sizeof(arr[0]), cmp_func);
+    int i;
+    int j;
+    int count = len;
+    char temp[50];
+
+    for(i=0;i<count;i++)
+    {
+        for(j=i+1;j<count;j++)
+        {
+            if((*cmp_func)(&arr[i],&arr[j]) > 0)
+            {
+                strcpy(temp,arr[i]);
+                strcpy(arr[i],arr[j]);
+                strcpy(arr[j],temp);
+            }
+        }
+    }
 }
 
 
