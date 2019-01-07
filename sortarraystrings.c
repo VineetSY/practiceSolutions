@@ -11,21 +11,24 @@ int lexicographic_sort_reverse(const char* a, const char* b) {
 
 int CountUniqueCharacters(char* str){
     int count = 0;
-
-    for (int i = 0; i < strlen(str); i++){
-         _Bool appears = 0;
-         for (int j = 0; j < i; j++){
-              if (str[j] == str[i]){
-                  appears = 1;
-                  break;
-              }
-         }
-
-         if (!appears){
-             count++;
-         }
+    _Bool appears = 0;
+    for (int i = 0; i < strlen(str); i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (str[j] == str[i])
+            {
+                appears = 1;
+                break;
+            }
+            else
+            {
+                appears = 0;
+            }
+        }
+        if (!appears)
+            count++;
     }
-
     return count;
 }
 
