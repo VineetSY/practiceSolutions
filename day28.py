@@ -18,7 +18,8 @@ if __name__ == '__main__':
 
         emailID = firstNameEmailID[1]
 
-        lastName = re.findall("([a-zA-Z0-9].+(?=@))", emailID)
+        lastName = re.findall("([a-zA-Z0-9].+(?=@gmail.com))", emailID)
+        print(*lastName)
         name = firstName,*lastName
         Names.append(name)
 
