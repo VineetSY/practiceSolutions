@@ -1,5 +1,3 @@
-import re
-
 #!/bin/python3
 
 import math
@@ -19,8 +17,15 @@ if __name__ == '__main__':
         firstName = firstNameEmailID[0]
 
         emailID = firstNameEmailID[1]
+
         lastName = re.findall("([a-zA-Z0-9].+(?=@))", emailID)
-        Names.append(firstName,lastName)
-    set(Names)
+        name = firstName,*lastName
+        Names.append(name)
+
+    nameSet = set(Names)
+    Names.clear()
+    for Name in nameSet:
+        Names.append(Name[0])
+    Names.sort()
     for Name in Names:
         print(Name)
